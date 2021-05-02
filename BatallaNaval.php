@@ -8,7 +8,13 @@
     echo "<h1><i>Batalla Naval</i></h1>";
     $vidas=8;
     $historial="";
-    $pantalla=0;
+    $ayuda="";
+    $barco_1_1 = rand(1, 10);
+    $barco_1_2 = rand(1, 10);
+    $barco_2_1 = rand(1, 10);
+    $barco_2_2 = rand(1, 10);
+    $pantalla="";
+    $coordenadas=[$cor_y, $cor_x];
     $casilla_y =    [
                         1 => "A",
                         2 => "B",
@@ -22,6 +28,8 @@
                         10 => "J"
     ];
     echo "<h3>Vidas: </h3>";
+    echo $barco_1_1.",".$barco_1_2;
+    echo $barco_2_1.",".$barco_2_2;
     
     while($vidas>0)
     {
@@ -29,10 +37,11 @@
         {
             echo "<img src='https://png.pngtree.com/png-vector/20191008/ourlarge/pngtree-bullet-icon-in-cartoon-style-png-image_1799886.jpg' alt='bala' height='20'>";
         }
-        //codigo de historial
+        //$ayuda=implode("", $coordenadas);
+        //$historial.=", ".$ayuda;
         echo "<br><br>";
         echo "Historial: <br>";
-        echo $historial;
+        //echo $historial;
         echo "<br><br>";
         echo "<table border='1'>";
             echo "<thead>";
