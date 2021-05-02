@@ -1,7 +1,11 @@
 <?php
+    //-------------------------------------------------------------------------------//
+    
+    $cor_y = (isset($_POST["letra"]) && $_POST["letra"] != "" )?$_POST["letra"] : "No hay dato";
+    $cor_x = (isset($_POST["numero"]) && $_POST["numero"] != "" )?$_POST["numero"] : "No hay dato";
+    
+    //-------------------------------------------------------------------------------//
     echo "<h1><i>Batalla Naval</i></h1>";
-    $cx=1;
-    $cy="A";
     $vidas=8;
     $historial="";
     $pantalla=0;
@@ -46,7 +50,7 @@
                 for($y=1; $y<=10; $y++)
                 {
                     echo "<tr>";
-                        echo "<th>";
+                        echo "<td>";
                             foreach ($casilla_y as $num => $letra) 
                             {
                                 if($y==$num)
@@ -54,32 +58,27 @@
                                     echo $letra;
                                 }
                             }
-                        echo "</th>";
-                        for($cuadro=1; $cuadro<=10; $cuadro++)
+                        echo "</td>";
+                        switch($pantalla)
                         {
-                            echo "<th>";
-                                switch ($pantalla)
+                            case 0:
+                                for($cuadro=1; $cuadro<=10; $cuadro++)
                                 {
-                                    case 0:
+                                    echo "<td>";
                                         echo "<img src='./agua.png' alt='imagen de agua' height='25'>";
-                                        break;
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        break;
+                                    echo "</td>";
                                 }
-                            echo "</th>";
+                                break;
                         }
-                    echo "</tr>";
+                    echo "</tr>";     
                 }
-                
             echo "</tbody>";
         echo "</table>";
-        echo "<form action='./BatallaNaval.php'>";
+        echo "<form action='./BatallaNaval.php' method='POST'>";
             echo "Coordenada X(numero): <input type='number' name='numero' min='0', max='10' required>";
             echo "Coordenada Y(letra): <input type='text' name='letra' required>";
-            echo "<input type='submit' value='Dispara!!!!'>";
-        echo "</form>"
+            echo "  <input type='submit' value='Dispara!!!!'>";
+        echo "</form>";
         $vidas-=1;
     }
     echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
