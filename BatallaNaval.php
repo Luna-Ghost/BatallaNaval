@@ -3,11 +3,11 @@
     
     $cor_y = (isset($_POST["letra"]) && $_POST["letra"] != "" )?$_POST["letra"] : "No hay dato";
     $cor_x = (isset($_POST["numero"]) && $_POST["numero"] != "" )?$_POST["numero"] : "No hay dato";
+    $historial = (isset($_POST["historial"]) && $_POST["historial"] != "" )?$_POST["historial"] : "No hay dato";
     
     //-------------------------------------------------------------------------------//
     echo "<h1><i>Batalla Naval</i></h1>";
     $vidas=8;
-    $historial="";
     $ayuda="";
     $barco_1_1 = rand(1, 10);
     $barco_1_2 = rand(1, 10);
@@ -30,19 +30,19 @@
     echo "<h3>Vidas: </h3>";
     echo $barco_1_1.",".$barco_1_2;
     echo $barco_2_1.",".$barco_2_2;
-    
-//cambio de while por if
+    $ayuda=implode("", $coordenadas);
+    $historial.=", ".$ayuda;
+
     if($vidas>0)
     {
         for($i=1; $i<=$vidas; $i++)
         {
             echo "<img src='https://png.pngtree.com/png-vector/20191008/ourlarge/pngtree-bullet-icon-in-cartoon-style-png-image_1799886.jpg' alt='bala' height='20'>";
         }
-        //$ayuda=implode("", $coordenadas);
-        //$historial.=", ".$ayuda;
+        
         echo "<br><br>";
         echo "Historial: <br>";
-        //echo $historial;
+        echo $historial;
         echo "<br><br>";
         echo "<table border='1'>";
             echo "<thead>";
@@ -87,11 +87,11 @@
         echo "<form action='./BatallaNaval.php' method='POST'>";
             echo "Coordenada X(numero): <input type='number' name='numero' min='0', max='10' required>";
             echo "Coordenada Y(letra): <input type='text' name='letra' required>";
-            echo "  <input type='submit' value='Dispara!!!!'>";
+            echo "<input type='hidden' name='historial' value='$historial'>";
+            echo " <input type='submit' value='Dispara!!!!'>";
         echo "</form>";
-        $vidas-=1;
+    }elseif ($vidas==0) {
+        echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
+        echo "<h2><i>Has perdido todas tus vidas</i></h2>";
     }
-    echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
-    echo "<h2><i>Has perdido todas tus vidas</i></h2>";
-    
 ?>
