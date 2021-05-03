@@ -31,7 +31,8 @@
     echo $barco_1_1.",".$barco_1_2;
     echo $barco_2_1.",".$barco_2_2;
     
-    while($vidas>0)
+//cambio de while por if
+    if($vidas>0)
     {
         for($i=1; $i<=$vidas; $i++)
         {
