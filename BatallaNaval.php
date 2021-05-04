@@ -35,60 +35,69 @@
                         10 => "J"
     ];
     //Creando el barco 1 con extensión de 4 casillas
-    if($barco_1_1<=10)
+    if(!isset($_POST["barcos"]))
     {
-        foreach($casilla_y as $num => $letra) {
-            if($barco_1_1==$num)
-            {
-                $barco_1_1=$letra;
+        if($barco_1_1<=10)
+        {
+            foreach($casilla_y as $num => $letra) {
+                if($barco_1_1==$num)
+                {
+                    $barco_1_1=$letra;
+                }
             }
         }
-    }
-    $barco1_inicio = [$barco_1_1.$barco_1_2];
-    if($barco_1_2<=6)
-    {
-        for($i=1; $i<=3; $i++)
+        $barco1_inicio = [$barco_1_1.$barco_1_2];
+        if($barco_1_2<=6)
         {
-            $barco_1_2+=1;
-            $x=$barco_1_1.$barco_1_2;
-            array_push($barco1_inicio, $x);
-        }
-    }elseif ($barco_1_2>=6) {
-        for($i=1; $i<=3; $i++)
-        {
-            $barco_1_2-=1;
-            $x=$barco_1_1.$barco_1_2;
-            array_push($barco1_inicio, $x);
-        }
-    }
-    //creando barco 2 con extensión de 3 casillas
-    if($barco_2_1<=10)
-    {
-        foreach($casilla_y as $num => $letra)
-        {
-            if($barco_2_1==$num)
+            for($i=1; $i<=3; $i++)
             {
-                $barco_2_1=$letra;
+                $barco_1_2+=1;
+                $x=$barco_1_1.$barco_1_2;
+                array_push($barco1_inicio, $x);
+            }
+        }elseif ($barco_1_2>=6) {
+            for($i=1; $i<=3; $i++)
+            {
+                $barco_1_2-=1;
+                $x=$barco_1_1.$barco_1_2;
+                array_push($barco1_inicio, $x);
             }
         }
+        //creando barco 2 con extensión de 3 casillas
+        if($barco_2_1<=10)
+        {
+            foreach($casilla_y as $num => $letra)
+            {
+                if($barco_2_1==$num)
+                {
+                    $barco_2_1=$letra;
+                }
+            }
+        }
+        if($barco_2_2<=6)
+        {
+            for($i=1; $i<=3; $i++)
+            {
+                $barco_2_2+=1;
+                $x=$barco_2_1.$barco_2_2;
+                array_push($barco1_inicio, $x);
+            }
+        }elseif ($barco_2_2>=6) {
+            for($i=1; $i<=3; $i++)
+            {
+                $barco_2_2-=1;
+                $x=$barco_2_1.$barco_2_2;
+                array_push($barco1_inicio, $x);
+            }
+        }
+        
+        $naves = $barco1_inicio;
     }
-    if($barco_2_2<=6)
+    else
     {
-        for($i=1; $i<=3; $i++)
-        {
-            $barco_2_2+=1;
-            $x=$barco_2_1.$barco_2_2;
-            array_push($barco1_inicio, $x);
-        }
-    }elseif ($barco_2_2>=6) {
-        for($i=1; $i<=3; $i++)
-        {
-            $barco_2_2-=1;
-            $x=$barco_2_1.$barco_2_2;
-            array_push($barco1_inicio, $x);
-        }
+        $naves = $barcos;
     }
-    $naves = $barco1_inicio;
+    
     
     $disparo=implode("", $coordenadas);
     $historial.=", ".$disparo;
