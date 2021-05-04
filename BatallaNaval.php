@@ -5,15 +5,13 @@
     $cor_x = (isset($_POST["numero"]) && $_POST["numero"] != "" )?$_POST["numero"] : "";
     $historial = (isset($_POST["historial"]) && $_POST["historial"] != "" )?$_POST["historial"] : "";
     $barcos = (isset($_POST["barcos"]) && $_POST["barcos"] != "" )?$_POST["barcos"] : "No hay dato";
+    $disps = (isset($_POST["disps"]) && $_POST["disps"] != "" )?$_POST["disps"] : "";
     
     //-------------------------------------------------------------------------------//
-    if(isset($_POST["barcos"]))
-    {
-        var_dump($barcos);
-    }
     echo "<h1><i>Batalla Naval</i></h1>";
-    $vidas = 9;
+    $vidas = 8;
     $disparo = "";
+    $cadena_disp = [];
     $barco_1_1 = rand(1, 10);
     $barco_1_2 = rand(1, 10);
     $barco_2_1 = rand(1, 10);
@@ -34,7 +32,7 @@
                         9 => "I",
                         10 => "J"
     ];
-    //Creando el barco 1 con extensión de 4 casillas
+    //Validaciones------------------------------------------------------------------------//
     if(!isset($_POST["barcos"]))
     {
         if($barco_1_1<=10)
@@ -97,13 +95,49 @@
     {
         $naves = $barcos;
     }
-    
-    
+    //......//
     $disparo=implode("", $coordenadas);
-    $historial.=", ".$disparo;
+    if(!isset($_POST["disps"]))
+    {
+        
+        foreach ($barcos as $value) {
+            if($disparo==$value)
+            {
+                array_push($cadena_disp, $disparo);
+            }
+        }
+        $cañonazo = $cadena_disp;
+    }
+    else
+    {
+        foreach ($barcos as $value) {
+            if($disparo==$value)
+            {
+                array_push($disps, $disparo);
+            }
+        }
+        $cañonazo = $disps;
+    }
+    //-----------------------------------------------------------------------------------------------//
     
+    
+    $historial.=", ".$disparo;
+    $ganar = 0;
+    
+    foreach ($barcos as $value) {
+        foreach ($cañonazo as $balas) {
+            if($value==$balas)
+            {
+                $ganar+=1;
+            }
+            /*else
+            {
+                $vidas-=1;
+            }*/
+        }
+    }
 
-    if($vidas>0)
+    if($vidas>0&&$ganar<7)
     {
         echo "<h3>Vidas: </h3>";
         for($i=1; $i<=$vidas; $i++)
@@ -165,26 +199,29 @@
             echo "Coordenada X(numero): <input type='number' name='numero' min='0', max='10' required>";
             echo "Coordenada Y(letra): <input type='text' name='letra' required>";
             echo "<input type='hidden' name='historial' value='$historial'>";
-
             foreach ($naves as $coordenad) {
                 echo "<input type='hidden' name='barcos[]' value='$coordenad'>";
                 echo $coordenad;
             }
-            var_dump($naves);
+            foreach ($cañonazo as $disp) {
+                echo "<input type='hidden' name='disps[]' value='$disp'>";
+                echo $disp;
+            }
             echo " <input type='submit' value='Dispara!!!!'>";
         echo "</form>";
         echo "Coordenadas de barcos: ";
         var_dump($barcos);
         echo "<br>";
-        echo $barco_1_1.$barco_1_2."-----".$barco_2_1.$barco_2_2;
+        echo "Cadena disparos: ";
+        var_dump($disps);
     }
-    /*if($vidas>0) 
+    elseif($vidas>0&&$ganar==7) 
     {
         echo "<h1><i>¡¡¡GANASTE!!!</i></h1>";
         echo "<h2><i>Has eliminado todos los barcos enemigos</i></h2>";
         echo " <img src='https://media.tenor.com/images/a2c75e7f112244519ca3e8f0a9f53099/tenor.gif' alt='GIF ganaste' width='300'>";
-    }*/
-    if($vidas==0) 
+    }
+    elseif($vidas==0) 
     {
         echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
         echo "<h2><i>Has perdido todas tus vidas</i></h2>";
