@@ -6,6 +6,7 @@
     $historial = (isset($_POST["historial"]) && $_POST["historial"] != "" )?$_POST["historial"] : "";
     $barcos = (isset($_POST["barcos"]) && $_POST["barcos"] != "" )?$_POST["barcos"] : "No hay dato";
     $disps = (isset($_POST["disps"]) && $_POST["disps"] != "" )?$_POST["disps"] : "";
+    $life = (isset($_POST["life"]) && $_POST["life"] != "" )?$_POST["life"] : "";
     
     //-------------------------------------------------------------------------------//
     echo "<h1><i>Batalla Naval</i></h1>";
@@ -18,7 +19,7 @@
     $barco_2_2 = rand(1, 10);
     $por_si_acaso = ["A1", "A2", "A3", "A4", "G7", "G8", "G9"];
     $pantalla = 0;
-    $disparo_estado = 0;
+    $disparo_estado = $bool=0;
     $coordenadas=[$cor_y, $cor_x];
     $casilla_y =    [
                         1 => "A",
@@ -33,6 +34,7 @@
                         10 => "J"
     ];
     //Validaciones------------------------------------------------------------------------//
+    //...Generar barcos...//
     if(!isset($_POST["barcos"]))
     {
         if($barco_1_1<=10)
@@ -95,9 +97,9 @@
     {
         $naves = $barcos;
     }
-    //......//
+    //..Cadena de disparos....//
     $disparo=implode("", $coordenadas);
-    if(!isset($_POST["disps"]))
+    if(!isset($_POST["disps"])&&isset($_POST["barcos"]))
     {
         
         foreach ($barcos as $value) {
@@ -108,7 +110,7 @@
         }
         $cañonazo = $cadena_disp;
     }
-    else
+    elseif(isset($_POST["barcos"]))
     {
         foreach ($barcos as $value) {
             if($disparo==$value)
@@ -118,24 +120,37 @@
         }
         $cañonazo = $disps;
     }
+    //..Manejo de vidas....//
+    if(!isset($_POST["life"]))
+    {
+        
+        $vids = $vidas;
+    }
+    else
+    {
+        
+        $vids = $life;
+    }
     //-----------------------------------------------------------------------------------------------//
     
     
     $historial.=", ".$disparo;
     $ganar = 0;
     
-    foreach ($barcos as $value) {
-        foreach ($cañonazo as $balas) {
-            if($value==$balas)
-            {
-                $ganar+=1;
+    //Permite checar los valores de la cadena cañonazo para compararla con la ubicacion de los barcos
+    //si coinside sube un punto a ganador, que al llegar a 7 envia el mensaje (lineas 221 a 226)
+    if(isset($_POST["barcos"]))
+    {
+        foreach ($barcos as $value) {
+            foreach ($cañonazo as $balas) {
+                if($value==$balas)
+                {
+                    $ganar+=1;
+                }
             }
-            /*else
-            {
-                $vidas-=1;
-            }*/
         }
     }
+    
 
     if($vidas>0&&$ganar<7)
     {
@@ -180,14 +195,24 @@
                                 if($disparo_estado==0)
                                 {
                                     echo "<img src='./agua.png' alt='imagen de agua' height='25'>";
-                                }/*elseif ($disparo_estado==1&&$y==$cor_y&&$cuadro==$cor_x) {
-                                    echo "<img src='./tiro_bueno.png' alt='imagen de agua' height='25'>";
-                                    $disparo_estado=0;
-                                }elseif ($disparo_estado==2&&$y==$cor_y&&$cuadro==$cor_x) {
-                                    echo "<img src='./tiro_malo.png' alt='imagen de agua' height='25'>";
-                                    $disparo_estado=0;
-                                    $vidas-=1;
-                                }*/
+                                }
+                                else
+                                {
+                                    if ($disparo_estado==1&&$y==$cor_y&&$cuadro==$cor_x) 
+                                    {
+                                        echo "<img src='./tiro_bueno.png' alt='imagen de agua' height='25'>";
+                                        $disparo_estado=true;
+                                    }
+                                    else
+                                    {
+                                        if ($disparo_estado==2&&$y==$cor_y&&$cuadro==$cor_x) 
+                                        {
+                                            echo "<img src='./tiro_malo.png' alt='imagen de agua' height='25'>";
+                                            $disparo_estado=false;
+                                            $vidas-=1;
+                                        }
+                                    }
+                                }
                             echo "</td>";
                         }
                     echo "</tr>";     
@@ -203,10 +228,14 @@
                 echo "<input type='hidden' name='barcos[]' value='$coordenad'>";
                 echo $coordenad;
             }
-            foreach ($cañonazo as $disp) {
-                echo "<input type='hidden' name='disps[]' value='$disp'>";
-                echo $disp;
+            if(isset($_POST["barcos"]))
+            {
+                foreach ($cañonazo as $disp) {
+                    echo "<input type='hidden' name='disps[]' value='$disp'>";
+                    echo $disp;
+                }
             }
+            echo "<input type='hidden' name='life' value='$vids'>";
             echo " <input type='submit' value='Dispara!!!!'>";
         echo "</form>";
         echo "Coordenadas de barcos: ";
