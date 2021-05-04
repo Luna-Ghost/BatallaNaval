@@ -1,14 +1,18 @@
 <?php
     //-------------------------------------------------------------------------------//
     
-    $cor_y = (isset($_POST["letra"]) && $_POST["letra"] != "" )?$_POST["letra"] : "No hay dato";
-    $cor_x = (isset($_POST["numero"]) && $_POST["numero"] != "" )?$_POST["numero"] : "No hay dato";
-    $historial = (isset($_POST["historial"]) && $_POST["historial"] != "" )?$_POST["historial"] : "No hay dato";
-    $barcos = [(isset($_POST["barcos"]) && $_POST["barcos"] != "" )?$_POST["barcos"] : "No hay dato"];
+    $cor_y = (isset($_POST["letra"]) && $_POST["letra"] != "" )?$_POST["letra"] : "";
+    $cor_x = (isset($_POST["numero"]) && $_POST["numero"] != "" )?$_POST["numero"] : "";
+    $historial = (isset($_POST["historial"]) && $_POST["historial"] != "" )?$_POST["historial"] : "";
+    $barcos = (isset($_POST["barcos"]) && $_POST["barcos"] != "" )?$_POST["barcos"] : "No hay dato";
     
     //-------------------------------------------------------------------------------//
+    if(isset($_POST["barcos"]))
+    {
+        var_dump($barcos);
+    }
     echo "<h1><i>Batalla Naval</i></h1>";
-    $vidas = 8;
+    $vidas = 9;
     $disparo = "";
     $barco_1_1 = rand(1, 10);
     $barco_1_2 = rand(1, 10);
@@ -85,6 +89,7 @@
         }
     }
     $naves = $barco1_inicio;
+    
     $disparo=implode("", $coordenadas);
     $historial.=", ".$disparo;
     
@@ -96,30 +101,6 @@
         {
             echo "<img src='https://png.pngtree.com/png-vector/20191008/ourlarge/pngtree-bullet-icon-in-cartoon-style-png-image_1799886.jpg' alt='bala' height='20'>";
         }
-
-        foreach ($barcos as $key => $coo) {
-            if($coo==$disparo)
-            {
-                echo "Le diste";
-                //$disparo_estado=1;
-            }else{
-                echo "Tiro fallido";
-                $vidas-=1;
-                //$disparo_estado=2;
-            }
-        }
-        /*foreach ($por_si_acaso as $coo) {
-            if($coo==$disparo)
-            {
-                echo "Le diste";
-                //$disparo_estado=1;
-            }else{
-                echo "Tiro fallido";
-                $vidas-=1;
-                //$disparo_estado=2;
-            }
-        }*/
-        
         
         echo "<br><br>";
         echo "Historial: <br>";
@@ -175,11 +156,16 @@
             echo "Coordenada X(numero): <input type='number' name='numero' min='0', max='10' required>";
             echo "Coordenada Y(letra): <input type='text' name='letra' required>";
             echo "<input type='hidden' name='historial' value='$historial'>";
-            echo "<input type='hidden' name='barcos' value='$naves'>";
+
+            foreach ($naves as $coordenad) {
+                echo "<input type='hidden' name='barcos[]' value='$coordenad'>";
+                echo $coordenad;
+            }
+            var_dump($naves);
             echo " <input type='submit' value='Dispara!!!!'>";
         echo "</form>";
         echo "Coordenadas de barcos: ";
-        var_dump($naves);
+        var_dump($barcos);
         echo "<br>";
         echo $barco_1_1.$barco_1_2."-----".$barco_2_1.$barco_2_2;
     }
