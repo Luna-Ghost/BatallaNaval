@@ -8,7 +8,7 @@
     
     //-------------------------------------------------------------------------------//
     echo "<h1><i>Batalla Naval</i></h1>";
-    $vidas = 8;
+    $vidas = 5;
     $disparo = "";
     $barco_1_1 = rand(1, 10);
     $barco_1_2 = rand(1, 10);
@@ -85,20 +85,13 @@
         }
     }
     $naves = $barco1_inicio;
-    var_dump($naves);
-    echo "<br>";
-    echo "<br>";
-    echo "<h3>Vidas: </h3>";
-    echo "<br>";
-    echo $barco_1_1.",".$barco_1_2;
-    echo "<br>";
-    echo $barco_2_1.",".$barco_2_2;
     $disparo=implode("", $coordenadas);
     $historial.=", ".$disparo;
     
 
     if($vidas>0)
     {
+        echo "<h3>Vidas: </h3>";
         for($i=1; $i<=$vidas; $i++)
         {
             echo "<img src='https://png.pngtree.com/png-vector/20191008/ourlarge/pngtree-bullet-icon-in-cartoon-style-png-image_1799886.jpg' alt='bala' height='20'>";
@@ -115,6 +108,18 @@
                 //$disparo_estado=2;
             }
         }
+        /*foreach ($por_si_acaso as $coo) {
+            if($coo==$disparo)
+            {
+                echo "Le diste";
+                //$disparo_estado=1;
+            }else{
+                echo "Tiro fallido";
+                $vidas-=1;
+                //$disparo_estado=2;
+            }
+        }*/
+        
         
         echo "<br><br>";
         echo "Historial: <br>";
@@ -145,50 +150,27 @@
                                 }
                             }
                         echo "</td>";
-                        switch($pantalla)
+                        for($cuadro=1; $cuadro<=10; $cuadro++)
                         {
-                            case 0:
-                                for($cuadro=1; $cuadro<=10; $cuadro++)
+                            echo "<td>";
+                                if($disparo_estado==0)
                                 {
-                                    echo "<td>";
-                                        if($disparo_estado==0)
-                                        {
-                                            echo "<img src='./agua.png' alt='imagen de agua' height='25'>";
-                                        }/*elseif ($disparo_estado==1) {
-                                            echo "<img src='./tiro_bueno.png' alt='imagen de agua' height='25'>";
-                                            $disparo_estado=0;
-                                        }elseif ($disparo_estado==2) {
-                                            echo "<img src='./tiro_malo.png' alt='imagen de agua' height='25'>";
-                                            $disparo_estado=0;
-                                            $vidas-=1;
-                                        }*/
-                                    echo "</td>";
-                                }
-                                break;
-                            case 1:
-                                if($vidas>0) 
-                                {
-                                    echo "<h1><i>¡¡¡GANASTE!!!</i></h1>";
-                                    echo "<h2><i>Has eliminado todos los barcos enemigos</i></h2>";
-                                    echo " <img src='https://media.tenor.com/images/a2c75e7f112244519ca3e8f0a9f53099/tenor.gif' alt='GIF ganaste' width='300'>";
-                                }
-                                break;
-                            case 2:
-                                if($vidas==0) 
-                                {
-                                    echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
-                                    echo "<h2><i>Has perdido todas tus vidas</i></h2>";
-                                    echo " <img src='https://media.tenor.com/images/26849e8a0223747d1d602f65843dbc6c/tenor.png' alt='Imágen perdiste' width='300'>";
-                                }
-                                break;
+                                    echo "<img src='./agua.png' alt='imagen de agua' height='25'>";
+                                }/*elseif ($disparo_estado==1&&$y==$cor_y&&$cuadro==$cor_x) {
+                                    echo "<img src='./tiro_bueno.png' alt='imagen de agua' height='25'>";
+                                    $disparo_estado=0;
+                                }elseif ($disparo_estado==2&&$y==$cor_y&&$cuadro==$cor_x) {
+                                    echo "<img src='./tiro_malo.png' alt='imagen de agua' height='25'>";
+                                    $disparo_estado=0;
+                                    $vidas-=1;
+                                }*/
+                            echo "</td>";
                         }
                     echo "</tr>";     
                 }
             echo "</tbody>";
         echo "</table>";
         echo "<br>";
-        echo "Dale play cada vez que quieras ambientar tu jugada jiji<br>";
-        echo "<audio src='./Linked Horizon - Shinzou wo Sasageyo! [Shingeki no Kyojin S2 OP] Lyrics.mp3' controls></audio>";
         echo "<form action='./BatallaNaval.php' method='POST'>";
             echo "Coordenada X(numero): <input type='number' name='numero' min='0', max='10' required>";
             echo "Coordenada Y(letra): <input type='text' name='letra' required>";
@@ -196,6 +178,21 @@
             echo "<input type='hidden' name='barcos' value='$naves'>";
             echo " <input type='submit' value='Dispara!!!!'>";
         echo "</form>";
+        echo "Coordenadas de barcos: ";
+        var_dump($naves);
+        echo "<br>";
+        echo $barco_1_1.$barco_1_2."-----".$barco_2_1.$barco_2_2;
+    }
+    /*if($vidas>0) 
+    {
+        echo "<h1><i>¡¡¡GANASTE!!!</i></h1>";
+        echo "<h2><i>Has eliminado todos los barcos enemigos</i></h2>";
+        echo " <img src='https://media.tenor.com/images/a2c75e7f112244519ca3e8f0a9f53099/tenor.gif' alt='GIF ganaste' width='300'>";
+    }*/
+    if($vidas==0) 
+    {
+        echo "<h1><i>¡¡¡PERDISTE!!!</i></h1>";
+        echo "<h2><i>Has perdido todas tus vidas</i></h2>";
+        echo " <img src='https://media.tenor.com/images/26849e8a0223747d1d602f65843dbc6c/tenor.png' alt='Imágen perdiste' width='300'>";
     }
 ?>
-
